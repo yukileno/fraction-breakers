@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>フラクション・ブレイカーズ 〜分数魔導と黄金の天秤〜</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="hud">
+  <div class="hud-main">
+    <div class="hud-lv" id="hLv">Lv.1</div>
+    <div class="hud-mid">
+      <div class="hud-title" id="hTitle"></div>
+      <div class="exp"><i id="hExp"></i><span id="hExpText"></span></div>
+    </div>
+    <div class="hud-cry" id="hCry">💎0</div>
+    <a class="hud-mc" id="hMc" href="play/" title="ブロックわーるどであそぶ">🧱0 ⏱0:00</a>
+  </div>
+  <div class="hud-tools">
+    <button id="tSound" class="icon" type="button" aria-label="効果音の切りかえ">🔊</button>
+    <button id="tVoice" class="icon" type="button" aria-label="音声の切りかえ">🗣️</button>
+    <button id="tSet" class="icon" type="button" aria-label="せってい">⚙️</button>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ホーム -->
+  <section id="home" class="view active">
+    <div class="title-block">
+      <div class="title-sub">小5算数「分数」れんしゅう</div>
+      <h1>フラクション・<wbr>ブレイカーズ</h1>
+      <div class="title-tag">〜分数魔導と黄金の天秤〜</div>
+    </div>
+    <div class="fairy"><div class="fairy-face">🧚</div><div class="bubble" id="homeBubble"></div></div>
+    <details class="card story">
+      <summary>📖 ものがたり</summary>
+      <p>数と量の調和を守る「アルケミア王国」に、数をバラバラに引き裂く混沌の魔王「カオス・ディバイダー」が現れた！
+      きみは見習い分数魔導士。相棒のナビ妖精「ピピ」と一緒に、<b>9つの試練の神殿</b>を攻略して、伝説の<b>黄金の天秤（100点の証）</b>を取りもどそう！</p>
+    </details>
+    <div class="menu">
+      <a id="goMc" class="btn menu-btn mc" href="play/"><span class="mi">⛏️</span><span><b>ブロックわーるど</b><small>もんだいで ゲットしたブロックで、さいだい3分あそべる！ <em id="mcInfo"></em></small></span></a>
+      <button id="goAdv" class="btn menu-btn" type="button"><span class="mi">🗺️</span><span><b>冒険モード</b><small>9つの神殿を好きな順にクリア（ヒントつき）</small></span></button>
+      <button id="goTrain" class="btn menu-btn" type="button"><span class="mi">📚</span><span><b>弱点克服グリモワール</b><small>まちがえた問題＋無限に出る類題 <em id="wrongCount"></em></small></span></button>
+      <button id="goZukan" class="btn menu-btn" type="button"><span class="mi">📖</span><span><b>魔導図鑑</b><small>集めたカードを見る</small></span></button>
+    </div>
+  </section>
+
+  <!-- ワールドマップ -->
+  <section id="map" class="view">
+    <div class="vhead"><button class="btn small toHome" type="button">← ホーム</button><h2>🗺️ ワールドマップ</h2></div>
+    <p class="dim">好きな神殿から挑戦できるよ。★1 → ★2 → ★3 と進むと力がつく！</p>
+    <div id="stageList"></div>
+  </section>
+
+  <!-- 弱点克服 -->
+  <section id="trainmenu" class="view">
+    <div class="vhead"><button class="btn small toHome" type="button">← ホーム</button><h2>📚 弱点克服グリモワール</h2></div>
+    <p class="dim">10問1ラウンド。まちがえた問題を先に出して、ぜんぶ解くと「封印完了！」。のこりは数字を変えた新しい問題だよ。</p>
+    <div id="trainList" class="trainlist"></div>
+  </section>
+
+  <!-- バトル（問題画面） -->
+  <section id="battle" class="view">
+    <div class="b-top">
+      <button id="bQuit" class="btn small" type="button">← やめる</button>
+      <div class="b-title" id="bTitle"></div>
+      <div class="b-prog" id="bProg"></div>
+    </div>
+    <div class="b-stage">
+      <div id="monster" class="monster">👹</div>
+      <div class="hp"><i id="mHp"></i></div>
+      <div id="combo" class="combo"></div>
+    </div>
+    <div class="fairy"><div class="fairy-face">🧚</div><div class="bubble" id="bubble"></div></div>
+    <div class="card q-card">
+      <div id="inst" class="inst"></div>
+      <div id="stem" class="stem"></div>
+      <div id="vis" class="vis"></div>
+    </div>
+    <div class="b-actions">
+      <button id="hintBtn" class="btn small" type="button">💡 ヒント</button>
+      <button id="readBtn" class="btn small" type="button">🔊 読み上げ</button>
+      <a id="playBtn" class="btn small" href="play/">⛏️ あそびにいく</a>
+      <button id="memoBtn" class="btn small" type="button">✏️ 計算メモを開く</button>
+    </div>
+    <div id="hintBox" class="card hint" hidden></div>
+    <div id="fb" class="feedback" hidden></div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="view"></section>
+
+  <!-- 図鑑 -->
+  <section id="zukan" class="view">
+    <div class="vhead"><button class="btn small toHome" type="button">← ホーム</button><h2>📖 魔導図鑑 <span id="cardCount" class="dim"></span></h2></div>
+    <div id="cardList" class="cards"></div>
+  </section>
+
+</main>
+
+<!-- 画面下部固定：算数パッド -->
+<div id="pad" aria-label="入力パッド">
+  <div id="choices" class="choices" hidden></div>
+  <div class="keys">
+    <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+    <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="bs" class="fn" aria-label="1文字消す">⌫</button>
+    <button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button>
+    <button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="clr" class="fn" aria-label="クリア">C</button>
+    <button type="button" data-k="swap" class="fn wide2">⇅ つぎの枠へ</button>
+    <button type="button" data-k="." class="dot">.</button>
+    <button type="button" data-k="enter" id="enter" class="enter wide3">決定！</button>
+  </div>
+</div>
+
+<!-- 手書きメモ -->
+<div id="memo" hidden>
+  <div class="memo-bar">
+    <button id="memoPen" class="btn small on" type="button">✏️ えんぴつ</button>
+    <button id="memoEr" class="btn small" type="button">🧽 消しゴム</button>
+    <button id="memoClr" class="btn small" type="button">🗑️ 全消去</button>
+    <button id="memoClose" class="btn small" type="button">✖ とじる</button>
+  </div>
+  <canvas id="memoCv"></canvas>
+</div>
+
+<div id="modal" hidden><div class="modal-in" id="modalBody"></div></div>
+<div id="fx" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
